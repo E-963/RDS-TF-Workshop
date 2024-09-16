@@ -6,9 +6,10 @@ resource "aws_kms_key" "master_key" {
 # Create the PostgreSQL RDS instance
 resource "aws_db_instance" "postgresql" {
   identifier                   = "frogtech-postgresql" # Unique identifier for the RDS instance
-  username                     = "dbadmin"             # Master username for the database
+  db_name                      = "postgresqlDB"
+  username                     = "postgres"             # Master username for the database
   engine                       = "postgres"
-  engine_version               = "16.4"            # Specifies the database engine (PostgreSQL)
+  engine_version               = "16.4"                # Specifies the database engine (PostgreSQL)
   db_subnet_group_name          = aws_db_subnet_group.postgres_subnet_group.name
   vpc_security_group_ids        = [aws_security_group.postgres_db_sg.id]
   instance_class                = var.db_instance_class         # DB instance type (e.g., db.t3.micro)
@@ -35,7 +36,7 @@ resource "aws_db_instance" "postgresql" {
 
 # Create a Secrets Manager secret to store the PostgreSQL password
 resource "aws_secretsmanager_secret" "postgres_db_secret" {
-  name        = "postgres-rds-secret-password" # Name of the secret in AWS Secrets Manager
+  name        = "postgres-rds-secret" # Name of the secret in AWS Secrets Manager
   description = "RDS PostgreSQL password secret for the database"
 
   # Tags for the secret
