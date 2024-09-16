@@ -8,7 +8,7 @@ resource "aws_vpc" "postgres_vpc" {
     Environment = "terraformChamps"
     Owner       = "soo28"
   }
-  
+
 }
 # Create a public subnet for the bastion host
 resource "aws_subnet" "public_subnet" {
@@ -21,30 +21,30 @@ resource "aws_subnet" "public_subnet" {
     Name        = "public-sub-1"
     Environment = "terraformChamps"
     Owner       = "soo28"
+  }
 }
-}
- # Create a private subnet for the primary RDS instance
+# Create a private subnet for the primary RDS instance
 resource "aws_subnet" "rds_subnet_1" {
   vpc_id            = aws_vpc.postgres_vpc.id
   cidr_block        = "10.0.2.0/24"
-  availability_zone = "us-east-1a"    #first AZ
+  availability_zone = "us-east-1a" #first AZ
   tags = {
     Name        = "private-rds-sub-1"
     Environment = "terraformChamps"
     Owner       = "soo28"
   }
- 
+
 }
 # Create a private subnet for the standby RDS instance
 resource "aws_subnet" "rds_subnet_2" {
   vpc_id            = aws_vpc.postgres_vpc.id
   cidr_block        = "10.0.3.0/24"
-  availability_zone = "us-east-1b"  #second AZ
-  
+  availability_zone = "us-east-1b" #second AZ
+
   tags = {
     Name        = "private-rds-sub-2"
     Environment = "terraformChamps"
     Owner       = "soo28"
   }
-  
+
 }

@@ -12,6 +12,4 @@ variable "db_allocated_storage" {
   default = 20
 }
 
-variable "db_engine_version" {
-  default = "15.2"
-}
+
