@@ -26,6 +26,9 @@ resource "aws_db_instance" "postgresql" {
   auto_minor_version_upgrade    = true                          # Automatically upgrades minor versions
   manage_master_user_password   = true                          # Manages the master user password via Secrets Manager
   master_user_secret_kms_key_id = aws_kms_key.master_key.key_id # Uses KMS to encrypt the password
+  blue_green_update {                # ensuring the Updates applies by AWS applies via Blue/Green deployment
+    enabled = true
+  }
 
   # Tags for the RDS instance
   tags = {
@@ -51,6 +54,5 @@ resource "aws_secretsmanager_secret_version" "postgres_secret_password" {
   secret_id = aws_secretsmanager_secret.postgres_db_secret.id # References the secret created earlier
   secret_string = jsonencode({                                # Encodes the secret as a JSON object
     username = "admin",                                       # The username for the PostgreSQL database
-    password = "Admin1"                                       # The actual password (replace this with a secure password)
   })
 }
